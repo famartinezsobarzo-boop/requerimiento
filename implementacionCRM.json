@@ -1,0 +1,9 @@
+{
+    "nombre": "Implementación CRM",
+    "cliente": "Empresa ABC",
+    "responsable": "Juan Pérez",
+    "estado": "Activo",
+    "prioridad": "Alta",
+    "valor": 5000000,
+    "descripcion": "Implementación de CRM"
+}

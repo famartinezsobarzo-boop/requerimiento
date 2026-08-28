@@ -1,0 +1,22 @@
+[
+    {
+        "id": 1,
+        "nombre": "Implementación ERP",
+        "cliente": "Empresa ABC",
+        "responsable": "Juan Pérez",
+        "estado": "Activo",
+        "prioridad": "Alta",
+        "valor": 8500000,
+        "descripcion": "Implementación de sistema ERP."
+    },
+    {
+        "id": 2,
+        "nombre": "Desarrollo Aplicación Web",
+        "cliente": "Comercial XYZ",
+        "responsable": "María González",
+        "estado": "Pendiente",
+        "prioridad": "Media",
+        "valor": 4500000,
+        "descripcion": "Desarrollo de plataforma web."
+    }
+]

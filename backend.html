@@ -1,0 +1,1111 @@
+```html
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM - Oportunidades Comerciales</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f6f9;
+            color: #1f2937;
+        }
+
+        /* NAVBAR */
+        header {
+            height: 70px;
+            background: #1e3a8a;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+        }
+
+        header h1 {
+            font-size: 22px;
+        }
+
+        .user {
+            font-size: 14px;
+        }
+
+        /* CONTENEDOR */
+        .container {
+            padding: 30px;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        /* CABECERA */
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .top-section h2 {
+            font-size: 26px;
+        }
+
+        .btn {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+        }
+
+        /* FILTROS */
+        .filters {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .filter-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        select,
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #2563eb;
+        }
+
+        /* TABLA */
+        .table-container {
+            background: white;
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        th {
+            background: #f9fafb;
+            font-size: 13px;
+        }
+
+        td {
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        /* ESTADOS */
+        .badge {
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .activo {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .pendiente {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .cerrado {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .cancelado {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .prioridad-alta {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .prioridad-media {
+            color: #d97706;
+            font-weight: bold;
+        }
+
+        .prioridad-baja {
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        /* BOTONES TABLA */
+        .actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 7px 9px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .view {
+            background: #dbeafe;
+        }
+
+        .edit {
+            background: #fef3c7;
+        }
+
+        .delete {
+            background: #fee2e2;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .modal-content {
+            background: white;
+            width: 500px;
+            max-width: 90%;
+            border-radius: 10px;
+            padding: 25px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .close {
+            cursor: pointer;
+            font-size: 22px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* DETALLE */
+        .detail-item {
+            margin-bottom: 15px;
+        }
+
+        .detail-item strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        /* CHAT */
+        .chat {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            width: 350px;
+            height: 450px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+            display: none;
+            flex-direction: column;
+            z-index: 200;
+        }
+
+        .chat-header {
+            background: #1e3a8a;
+            color: white;
+            padding: 15px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 9px 12px;
+            border-radius: 10px;
+            max-width: 85%;
+            font-size: 13px;
+        }
+
+        .bot {
+            background: #f3f4f6;
+        }
+
+        .user-message {
+            background: #2563eb;
+            color: white;
+            margin-left: auto;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #ddd;
+            padding: 10px;
+            gap: 5px;
+        }
+
+        .chat-input input {
+            flex: 1;
+        }
+
+        .chat-input button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .ai-button {
+            position: fixed;
+            right: 25px;
+            bottom: 25px;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            border: none;
+            background: #1e3a8a;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 150;
+        }
+
+        @media(max-width: 800px) {
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .top-section {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>CRM Comercial</h1>
+    <div class="user">👤 Administrador</div>
+</header>
+
+<div class="container">
+
+    <div class="top-section">
+        <div>
+            <h2>Oportunidades Comerciales</h2>
+            <p>Gestiona y controla tus oportunidades de negocio.</p>
+        </div>
+
+        <button class="btn btn-primary" onclick="abrirModal()">
+            ➕ Nueva oportunidad
+        </button>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="filters">
+
+        <div class="filter-group">
+            <label>Buscar</label>
+            <input
+                type="text"
+                id="buscar"
+                placeholder="Buscar oportunidad..."
+                oninput="filtrar()"
+            >
+        </div>
+
+        <div class="filter-group">
+            <label>Estado</label>
+            <select id="filtroEstado" onchange="filtrar()">
+                <option value="">Todos</option>
+                <option value="Activo">Activo</option>
+                <option value="Pendiente">Pendiente</option>
+                <option value="Cerrado">Cerrado</option>
+                <option value="Cancelado">Cancelado</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Responsable</label>
+            <select id="filtroResponsable" onchange="filtrar()">
+                <option value="">Todos</option>
+                <option value="Juan Pérez">Juan Pérez</option>
+                <option value="María González">María González</option>
+                <option value="Carlos Soto">Carlos Soto</option>
+            </select>
+        </div>
+
+        <div class="filter-group">
+            <label>Prioridad</label>
+            <select id="filtroPrioridad" onchange="filtrar()">
+                <option value="">Todas</option>
+                <option value="Alta">Alta</option>
+                <option value="Media">Media</option>
+                <option value="Baja">Baja</option>
+            </select>
+        </div>
+
+    </div>
+
+    <!-- TABLA -->
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Oportunidad</th>
+                    <th>Cliente</th>
+                    <th>Responsable</th>
+                    <th>Estado</th>
+                    <th>Prioridad</th>
+                    <th>Valor</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody id="tablaOportunidades"></tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<!-- MODAL CREAR / EDITAR -->
+
+<div class="modal" id="modal">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2 id="tituloModal">Nueva oportunidad</h2>
+            <span class="close" onclick="cerrarModal()">×</span>
+        </div>
+
+        <input type="hidden" id="indiceEditar">
+
+        <div class="form-group">
+            <label>Nombre de la oportunidad</label>
+            <input type="text" id="nombre">
+        </div>
+
+        <div class="form-group">
+            <label>Cliente</label>
+            <input type="text" id="cliente">
+        </div>
+
+        <div class="form-group">
+            <label>Responsable</label>
+            <select id="responsable">
+                <option>Juan Pérez</option>
+                <option>María González</option>
+                <option>Carlos Soto</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Estado</label>
+            <select id="estado">
+                <option>Activo</option>
+                <option>Pendiente</option>
+                <option>Cerrado</option>
+                <option>Cancelado</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Prioridad</label>
+            <select id="prioridad">
+                <option>Alta</option>
+                <option>Media</option>
+                <option>Baja</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Valor estimado ($)</label>
+            <input type="number" id="valor">
+        </div>
+
+        <div class="form-group">
+            <label>Descripción</label>
+            <textarea id="descripcion" rows="4"></textarea>
+        </div>
+
+        <div class="form-actions">
+            <button class="btn btn-secondary" onclick="cerrarModal()">
+                Cancelar
+            </button>
+
+            <button class="btn btn-primary" onclick="guardarOportunidad()">
+                Guardar
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- MODAL DETALLE -->
+
+<div class="modal" id="modalDetalle">
+
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2>Detalle de oportunidad</h2>
+            <span class="close" onclick="cerrarDetalle()">×</span>
+        </div>
+
+        <div id="detalleContenido"></div>
+
+    </div>
+
+</div>
+
+<!-- CHAT IA -->
+
+<button class="ai-button" onclick="toggleChat()">🤖</button>
+
+<div class="chat" id="chat">
+
+    <div class="chat-header">
+        <strong>Asistente IA</strong>
+        <span onclick="toggleChat()" style="cursor:pointer;">×</span>
+    </div>
+
+    <div class="chat-messages" id="mensajes">
+
+        <div class="message bot">
+            Hola 👋 Soy tu asistente comercial.
+            ¿En qué puedo ayudarte?
+        </div>
+
+    </div>
+
+    <div class="chat-input">
+
+        <input
+            type="text"
+            id="mensaje"
+            placeholder="Escribe un mensaje..."
+            onkeypress="if(event.key==='Enter') enviarMensaje()"
+        >
+
+        <button onclick="enviarMensaje()">Enviar</button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    let oportunidades = [
+
+        {
+            id: 1,
+            nombre: "Implementación ERP",
+            cliente: "Empresa ABC",
+            responsable: "Juan Pérez",
+            estado: "Activo",
+            prioridad: "Alta",
+            valor: 8500000,
+            descripcion: "Implementación de sistema ERP para gestión empresarial."
+        },
+
+        {
+            id: 2,
+            nombre: "Desarrollo Aplicación Web",
+            cliente: "Comercial XYZ",
+            responsable: "María González",
+            estado: "Pendiente",
+            prioridad: "Media",
+            valor: 4500000,
+            descripcion: "Desarrollo de plataforma web para clientes."
+        },
+
+        {
+            id: 3,
+            nombre: "Soporte TI",
+            cliente: "Empresa Digital",
+            responsable: "Carlos Soto",
+            estado: "Cerrado",
+            prioridad: "Baja",
+            valor: 2500000,
+            descripcion: "Servicio de soporte técnico y mantenimiento."
+        }
+
+    ];
+
+
+    /* MOSTRAR TABLA */
+
+    function mostrarOportunidades(lista = oportunidades) {
+
+        const tabla = document.getElementById("tablaOportunidades");
+
+        tabla.innerHTML = "";
+
+        lista.forEach((op, indice) => {
+
+            let estadoClase = op.estado.toLowerCase();
+
+            let prioridadClase =
+                "prioridad-" + op.prioridad.toLowerCase();
+
+            tabla.innerHTML += `
+
+                <tr>
+
+                    <td>#${op.id}</td>
+
+                    <td><strong>${op.nombre}</strong></td>
+
+                    <td>${op.cliente}</td>
+
+                    <td>${op.responsable}</td>
+
+                    <td>
+                        <span class="badge ${estadoClase}">
+                            ${op.estado}
+                        </span>
+                    </td>
+
+                    <td class="${prioridadClase}">
+                        ${op.prioridad}
+                    </td>
+
+                    <td>
+                        $${op.valor.toLocaleString("es-CL")}
+                    </td>
+
+                    <td>
+
+                        <div class="actions">
+
+                            <button
+                                class="action-btn view"
+                                onclick="verDetalle(${op.id})"
+                                title="Ver detalle">
+                                👁️
+                            </button>
+
+                            <button
+                                class="action-btn edit"
+                                onclick="editarOportunidad(${op.id})"
+                                title="Editar">
+                                ✏️
+                            </button>
+
+                            <button
+                                class="action-btn delete"
+                                onclick="eliminarOportunidad(${op.id})"
+                                title="Eliminar">
+                                🗑️
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            `;
+
+        });
+
+    }
+
+
+    /* FILTRAR */
+
+    function filtrar() {
+
+        const texto =
+            document.getElementById("buscar").value.toLowerCase();
+
+        const estado =
+            document.getElementById("filtroEstado").value;
+
+        const responsable =
+            document.getElementById("filtroResponsable").value;
+
+        const prioridad =
+            document.getElementById("filtroPrioridad").value;
+
+
+        const resultado = oportunidades.filter(op => {
+
+            return (
+
+                op.nombre.toLowerCase().includes(texto) ||
+                op.cliente.toLowerCase().includes(texto)
+
+            ) &&
+
+            (estado === "" || op.estado === estado) &&
+
+            (responsable === "" || op.responsable === responsable) &&
+
+            (prioridad === "" || op.prioridad === prioridad);
+
+        });
+
+
+        mostrarOportunidades(resultado);
+
+    }
+
+
+    /* ABRIR MODAL */
+
+    function abrirModal() {
+
+        document.getElementById("modal").style.display = "flex";
+
+        document.getElementById("tituloModal").textContent =
+            "Nueva oportunidad";
+
+        document.getElementById("indiceEditar").value = "";
+
+        document.getElementById("nombre").value = "";
+        document.getElementById("cliente").value = "";
+        document.getElementById("responsable").value = "Juan Pérez";
+        document.getElementById("estado").value = "Activo";
+        document.getElementById("prioridad").value = "Media";
+        document.getElementById("valor").value = "";
+        document.getElementById("descripcion").value = "";
+
+    }
+
+
+    function cerrarModal() {
+
+        document.getElementById("modal").style.display = "none";
+
+    }
+
+
+    /* GUARDAR */
+
+    function guardarOportunidad() {
+
+        const nombre =
+            document.getElementById("nombre").value;
+
+        const cliente =
+            document.getElementById("cliente").value;
+
+        const responsable =
+            document.getElementById("responsable").value;
+
+        const estado =
+            document.getElementById("estado").value;
+
+        const prioridad =
+            document.getElementById("prioridad").value;
+
+        const valor =
+            Number(document.getElementById("valor").value);
+
+        const descripcion =
+            document.getElementById("descripcion").value;
+
+        if (!nombre || !cliente) {
+
+            alert("Completa el nombre y cliente.");
+
+            return;
+
+        }
+
+
+        const indice =
+            document.getElementById("indiceEditar").value;
+
+
+        if (indice === "") {
+
+            const nuevoId =
+                oportunidades.length > 0
+                ? Math.max(...oportunidades.map(o => o.id)) + 1
+                : 1;
+
+            oportunidades.push({
+
+                id: nuevoId,
+                nombre,
+                cliente,
+                responsable,
+                estado,
+                prioridad,
+                valor,
+                descripcion
+
+            });
+
+        } else {
+
+            oportunidades[indice] = {
+
+                id: oportunidades[indice].id,
+                nombre,
+                cliente,
+                responsable,
+                estado,
+                prioridad,
+                valor,
+                descripcion
+
+            };
+
+        }
+
+
+        cerrarModal();
+
+        mostrarOportunidades();
+
+    }
+
+
+    /* EDITAR */
+
+    function editarOportunidad(id) {
+
+        const indice =
+            oportunidades.findIndex(op => op.id === id);
+
+        const op = oportunidades[indice];
+
+
+        document.getElementById("modal").style.display = "flex";
+
+        document.getElementById("tituloModal").textContent =
+            "Editar oportunidad";
+
+        document.getElementById("indiceEditar").value =
+            indice;
+
+        document.getElementById("nombre").value =
+            op.nombre;
+
+        document.getElementById("cliente").value =
+            op.cliente;
+
+        document.getElementById("responsable").value =
+            op.responsable;
+
+        document.getElementById("estado").value =
+            op.estado;
+
+        document.getElementById("prioridad").value =
+            op.prioridad;
+
+        document.getElementById("valor").value =
+            op.valor;
+
+        document.getElementById("descripcion").value =
+            op.descripcion;
+
+    }
+
+
+    /* ELIMINAR */
+
+    function eliminarOportunidad(id) {
+
+        const confirmar =
+            confirm("¿Deseas desactivar esta oportunidad?");
+
+        if (!confirmar) return;
+
+        const indice =
+            oportunidades.findIndex(op => op.id === id);
+
+        oportunidades[indice].estado = "Cancelado";
+
+        mostrarOportunidades();
+
+    }
+
+
+    /* DETALLE */
+
+    function verDetalle(id) {
+
+        const op =
+            oportunidades.find(op => op.id === id);
+
+        document.getElementById("detalleContenido").innerHTML = `
+
+            <div class="detail-item">
+                <strong>Oportunidad</strong>
+                ${op.nombre}
+            </div>
+
+            <div class="detail-item">
+                <strong>Cliente</strong>
+                ${op.cliente}
+            </div>
+
+            <div class="detail-item">
+                <strong>Responsable</strong>
+                ${op.responsable}
+            </div>
+
+            <div class="detail-item">
+                <strong>Estado</strong>
+                ${op.estado}
+            </div>
+
+            <div class="detail-item">
+                <strong>Prioridad</strong>
+                ${op.prioridad}
+            </div>
+
+            <div class="detail-item">
+                <strong>Valor estimado</strong>
+                $${op.valor.toLocaleString("es-CL")}
+            </div>
+
+            <div class="detail-item">
+                <strong>Descripción</strong>
+                ${op.descripcion || "Sin descripción"}
+            </div>
+
+        `;
+
+        document.getElementById("modalDetalle").style.display =
+            "flex";
+
+    }
+
+
+    function cerrarDetalle() {
+
+        document.getElementById("modalDetalle").style.display =
+            "none";
+
+    }
+
+
+    /* CHAT IA */
+
+    function toggleChat() {
+
+        const chat =
+            document.getElementById("chat");
+
+        if (chat.style.display === "flex") {
+
+            chat.style.display = "none";
+
+        } else {
+
+            chat.style.display = "flex";
+
+        }
+
+    }
+
+
+    function enviarMensaje() {
+
+        const input =
+            document.getElementById("mensaje");
+
+        const texto =
+            input.value.trim();
+
+        if (!texto) return;
+
+
+        const mensajes =
+            document.getElementById("mensajes");
+
+
+        mensajes.innerHTML += `
+
+            <div class="message user-message">
+                ${texto}
+            </div>
+
+        `;
+
+
+        input.value = "";
+
+
+        setTimeout(() => {
+
+            let respuesta =
+                "Puedo ayudarte a revisar oportunidades, estados, prioridades y responsables.";
+
+            const textoLower =
+                texto.toLowerCase();
+
+
+            if (textoLower.includes("oportunidades")) {
+
+                respuesta =
+                    `Actualmente tienes ${oportunidades.length} oportunidades registradas.`;
+
+            }
+
+            else if (textoLower.includes("alta")) {
+
+                const cantidad =
+                    oportunidades.filter(
+                        o => o.prioridad === "Alta"
+                    ).length;
+
+                respuesta =
+                    `Tienes ${cantidad} oportunidad(es) con prioridad alta.`;
+
+            }
+
+            else if (textoLower.includes("cerrad")) {
+
+                const cantidad =
+                    oportunidades.filter(
+                        o => o.estado === "Cerrado"
+                    ).length;
+
+                respuesta =
+                    `Actualmente tienes ${cantidad} oportunidad(es) cerrada(s).`;
+
+            }
+
+            mensajes.innerHTML += `
+
+                <div class="message bot">
+                    ${respuesta}
+                </div>
+
+            `;
+
+
+            mensajes.scrollTop =
+                mensajes.scrollHeight;
+
+        }, 500);
+
+    }
+
+
+    /* INICIO */
+
+    mostrarOportunidades();
+
+</script>
+
+</body>
+</html>
+```
